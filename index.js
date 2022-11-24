@@ -121,7 +121,7 @@ app.set("trust proxy", 1);
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://user-dashboard-omega.vercel.app",
     credentials: true,
   })
 );
@@ -133,7 +133,7 @@ app.use(
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,
       sameSite: "none",
-      secure: false,
+      secure: true,
       httpOnly: true,
     },
   })
