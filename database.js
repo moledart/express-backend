@@ -9,7 +9,7 @@ const pool = mysql.createPool({
   database: process.env.DATABASE,
   port: process.env.DB_PORT,
 });
-export const getUsers = async () => {
+const getUsers = async () => {
   try {
     const [users] = await pool.query("SELECT * FROM user_table");
     if (!users) throw "Could not get users. Something went wrong.";
@@ -20,7 +20,7 @@ export const getUsers = async () => {
   }
 };
 
-export const getUserByEmail = async (email) => {
+const getUserByEmail = async (email) => {
   try {
     const [user] = await pool.query(
       "SELECT * FROM user_table WHERE email = ?",
@@ -34,7 +34,7 @@ export const getUserByEmail = async (email) => {
   }
 };
 
-export const getUserById = async (id) => {
+const getUserById = async (id) => {
   try {
     const [user] = await pool.query("SELECT * FROM user_table WHERE id = ?", [
       id,
@@ -47,7 +47,7 @@ export const getUserById = async (id) => {
   }
 };
 
-export const createUser = async (username, email, password) => {
+const createUser = async (username, email, password) => {
   try {
     const user = await getUserByEmail(email);
     if (!user.err) throw { code: 409, message: "User already exists" };
@@ -62,7 +62,7 @@ export const createUser = async (username, email, password) => {
   }
 };
 
-export const deleteUsers = async (users) => {
+const deleteUsers = async (users) => {
   try {
     const [user] = await pool.query(
       `DELETE from user_table WHERE id IN (${users})`
@@ -75,7 +75,7 @@ export const deleteUsers = async (users) => {
   }
 };
 
-export const login = async (email, password) => {
+const login = async (email, password) => {
   try {
     const user = await getUserByEmail(email);
 
@@ -96,7 +96,7 @@ export const login = async (email, password) => {
   }
 };
 
-export const blockUsers = async (users, newStatus) => {
+const blockUsers = async (users, newStatus) => {
   try {
     const [result] = await pool.query(
       `UPDATE user_table SET status = ? WHERE id IN (${users})`,
@@ -107,4 +107,14 @@ export const blockUsers = async (users, newStatus) => {
   } catch (err) {
     return { err };
   }
+};
+
+module.exports = {
+  getUsers,
+  getUserByEmail,
+  getUserById,
+  createUser,
+  deleteUsers,
+  blockUsers,
+  login,
 };
