@@ -1,7 +1,7 @@
-const express = require("express");
-const session = reuqire("express-session");
-require("dotenv").config();
-const cors = require("cors");
+import express from "express";
+import session from "express-session";
+import dotenv from "dotenv";
+import cors from "cors";
 
 import {
   blockUsers,
@@ -11,6 +11,7 @@ import {
   login,
 } from "./database.js";
 
+dotenv.config();
 const app = express();
 app.use(express.json());
 app.set("trust proxy", 1);
@@ -34,10 +35,6 @@ app.use(
     },
   })
 );
-
-app.listen(process.env.PORT, () => {
-  console.log("Server started on port: ", process.env.PORT);
-});
 
 app.get("/users", async (req, res) => {
   const users = await getUsers();
@@ -100,4 +97,8 @@ app.put("/users", async (req, res) => {
   res.status(204).json(result);
 });
 
-module.exports = app;
+app.listen(process.env.PORT, () => {
+  console.log("Server started on port: ", process.env.PORT);
+});
+
+export default app;
