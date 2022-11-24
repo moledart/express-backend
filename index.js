@@ -100,3 +100,5 @@ app.put("/users", async (req, res) => {
 app.listen(process.env.PORT, () => {
   console.log("Server started on port: ", process.env.PORT);
 });
+
+export default app;
