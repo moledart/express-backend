@@ -86,8 +86,11 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/loggedIn", (req, res) => {
-  if (req.session.loggedIn)
+  if (req.session.loggedIn) {
     res.status(201).json({ message: "You are logged in" });
+  } else {
+    res.status(403).json("Login first");
+  }
 });
 
 app.get("/logout", (req, res) => {
